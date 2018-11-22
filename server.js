@@ -13,7 +13,8 @@ app.get("/", function (req, res) {
 
 io.on("connection", function (socket) {
     socket.on("send stats", function (data) {
-        fs.appendFileSync("stats.json", JSON.stringify(data));
+        fs.appendFile("stats.json", JSON.stringify(data));
+        
     });
 });
 server.listen(3000);

@@ -16,15 +16,14 @@ class LivingCreature {
         ];
     }
 
-    chooseCell(ch, ch1, ch2) {
+    chooseCell(ch, ch1, ch2, ch3, ch4, ch5, ch6) {
         var found = [];
         var directions = this.directions;
-
         for (var i in directions) {
             var x = directions[i][0];
             var y = directions[i][1];
             if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-                if (matrix[y][x] == ch || matrix[y][x] == ch1 || matrix[y][x] == ch2) {
+                if (matrix[y][x] == ch || matrix[y][x] == ch1 || matrix[y][x] == ch2 || matrix[y][x] == ch3 || matrix[y][x] == ch4 || matrix[y][x] == ch5 || matrix[y][x] == ch6) {
                     found.push(directions[i]);
                 }
             }

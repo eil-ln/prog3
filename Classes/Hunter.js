@@ -66,22 +66,22 @@ class Hunter extends LivingCreature {
             }
         }
         else if (chooseCell) {
+            matrix[chooseCell[1]][chooseCell[0]] = this.index;
             if (matrix[chooseCell[1]][chooseCell[0]] == 1){
                 matrix[this.y][this.x] = 1;
             }
             else{
                 matrix[this.y][this.x] = 0;
-            }
-            this.energy--;
-            matrix[chooseCell[1]][chooseCell[0]] = this.index;
+            }   
             this.x = chooseCell[0];
             this.y = chooseCell[1];
+            this.energy--;
             this.mul = 0;
         }
     }
 
     multiply() {
-        if (this.index == 30){
+        if (this.index == 40){
             var newCell = random(this.chooseCell(0, 1));
             var newPartner = random(this.chooseCell(3, 30));
             var newIndex = 4 * randomGender();

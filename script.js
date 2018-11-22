@@ -3,7 +3,7 @@ var matrix = [];
 var h = 50;
 var w = 50;
 var side = 10;
-var grassArr = [], sheepArr = [], wolfArr = [], hntrArr = [], mahahaArr = [];
+var grassArr = [], sheepArr = [], wolfArr = [], hntrArr = [], mahahaArr = [], bomberArr = [];
 var season = "Summer";
 var seasonCount = 0;
 var stats = {};
@@ -19,9 +19,9 @@ function setup() {
             if (rand < 30) index = 0;
             else if (rand < 60) index = 1;
             else if (rand < 80) index = 2 * randomGender();
-            else if (rand < 90) index = 3 * randomGender();
-            // else if (rand < 99) index = 4 * randomGender();
-            // else if (rand <= 100) index = 5;
+            else if (rand < 95) index = 3 * randomGender();
+            else if (rand < 99) index = 4 * randomGender();
+            else if (rand <= 100) index = 5;
             matrix[y][x] = index;               
             }
     }
@@ -72,6 +72,9 @@ function draw() {
             "Killed by Player": 0
         }
         socket.emit("send stats", stats);
+
+        var position = getBlankCells()
+        bomberArr.push(new Bomber(position[0], position[1], 6))
     }
 
     if (frameCount % 25 == 0) {
@@ -82,6 +85,7 @@ function draw() {
             season = "Summer"; 
         } 
         seasonCount++;   
+
     }
 
     for (var y = 0; y < matrix.length; y++) {
@@ -122,6 +126,10 @@ function draw() {
             } 
             else if (matrix[y][x] == 5) {
                 fill("black");
+                rect(x * side, y * side, side, side);
+            } 
+            else if (matrix[y][x] == 6) {
+                fill("blue");
                 rect(x * side, y * side, side, side);
             } 
             else if (matrix[y][x] == 0) {
@@ -185,6 +193,7 @@ function draw() {
     }
 
     for (var i in hntrArr) {
+        hntrArr[i].mul++;
         if (season == "Summer" && hntrArr[i].mul >= hntrArr[i].speed) {
             hntrArr[i].utel();
         }
@@ -194,22 +203,35 @@ function draw() {
         if (hntrArr[i].energy >= 7) {
             hntrArr[i].multiply();
         }
-        if (hntrArr[i].energy <= 0) {
+        else if (hntrArr[i].energy <= 0) {
             hntrArr[i].die();
         }
     }
 
-    // for (var i in mahahaArr) {
-    //     if (season != "Summer"){
-    //         mahahaArr[i].walk();       
-    //         if (mahahaArr[i].energy >= 7) {
-    //             mahahaArr[i].multiply();
-    //         }
-    //         else if (mahahaArr[i].energy <= 0) {
-    //             mahahaArr[i].die();
-    //         }
-    //     }
-    // }
+    for (var i in mahahaArr) {
+        mahahaArr[i].mul++;
+        if (season != "Summer"){
+            if (mahahaArr[i].mul >= mahahaArr[i].speed){
+                mahahaArr[i].walk();   
+            }    
+            if (mahahaArr[i].energy >= 25) {
+                mahahaArr[i].multiply();
+            }
+            else if (mahahaArr[i].energy <= 0) {
+                mahahaArr[i].die();
+            }
+        }
+    }
+
+    for (var i in bomberArr) {
+        bomberArr[i].mul++;
+        if (bomberArr[i].mul >= bomberArr[i].speed) {
+            bomberArr[i].walk();
+        }
+        if (bomberArr[i].steps >= Math.round(random(5, 15))){
+            bomberArr[i].explose();   
+        }       
+    }
 }
 
 function randomGender() {
@@ -218,5 +240,19 @@ function randomGender() {
     else gender = 1;
     return gender;
 }
+
+function getBlankCells() {
+    var found = [];
+    for (let y = 0; y < matrix.length; ++y) {
+        for (let x = 0; x < matrix[y].length; ++x) {
+            if (matrix[y][x] == 0) {
+                found.push([x,y]);
+            }
+        }
+    }
+    return random(found);
+}
+
+
 
 
