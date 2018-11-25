@@ -1,7 +1,7 @@
 class Wolf extends LivingCreature {
     constructor(x, y, index) {
         super(x, y, index);
-        this.energy = 5;
+        this.energy = 7;
         this.speed = Math.round(random(0, 2));
     }
 

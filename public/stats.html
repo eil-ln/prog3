@@ -1,0 +1,66 @@
+<html>
+
+<head>
+    <title>Statistics</title>
+    <script src="/socket/socket.io.js"></script>
+    <style>
+        *{
+            color:white;
+        }
+        body {
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: #061c31;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        table{
+            border: 1px solid white;
+        }
+
+        td{
+            border: 1px solid white;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="tip">
+       <div>
+            <table id="statistics">
+                    
+            </table>
+        </div>
+        
+    </div>
+    <script>
+        var socket = io.connect('http://localhost:3000');
+        var table = document.getElementById("statistics");
+        setInterval(function(){
+            socket.emit("get stats", []);
+        }, 10000);
+
+        socket.on("send stats",function(statistics){
+        statistics = JSON.parse(statistics);
+        table.innerHTML = "";
+        tableHTML = "<tr><td>Frame Count</td><td>Nomber of passed seasons</td><td>Number of grass</td><td>Number of sheeps</td><td>Number of wolfs</td><td>Number of hunters</td><td>Number of hunters</td><td>Killed by Player</td></tr>";
+        for(var row of statistics){
+            tableHTML+="<tr>";
+            tableHTML+="<td>"+row.frameCount+"</td>";
+            tableHTML+="<td>"+row.seasons+"</td>";
+            tableHTML+="<td>"+row.grassC+"</td>";
+            tableHTML+="<td>"+row.sheepsC+"</td>";
+            tableHTML+="<td>"+row.wolfsC+"</td>";
+            tableHTML+="<td>"+row.huntersC+"</td>";
+            tableHTML+="<td>"+row.MahahasC+"</td>";
+            tableHTML+="<td>"+row.killedByPlayer+"</td>";
+            tableHTML+="</tr>";
+        }
+        table.innerHTML = tableHTML;
+    })
+    </script>
+</body>
+</html>

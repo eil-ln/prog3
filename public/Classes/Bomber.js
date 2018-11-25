@@ -82,6 +82,7 @@ class Bomber extends LivingCreature {
                 for (var i in sheepArr) {
                     if (sheepArr[i].x == x && sheepArr[i].y == y) {
                         sheepArr[i].die;
+                        matrix[y][x] = 0;
                         break;
                     }
                 }
@@ -111,8 +112,6 @@ class Bomber extends LivingCreature {
                 matrix[this.y][this.x] = 0;
                 break;
             }
-        }   
-
-        
+        }           
     }
 }
