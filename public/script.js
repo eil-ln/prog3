@@ -3,10 +3,11 @@ var matrix = [];
 var h = 50;
 var w = 50;
 var side = 10;
-var grassArr = [], sheepArr = [], wolfArr = [], hntrArr = [], mahahaArr = [], bomberArr = [];
+var grassArr = [], sheepArr = [], wolfArr = [], hntrArr = [], mahahaArr = [], destroyerArr = [];
 var season = "Summer";
 var seasonCount = 0;
 var killedByPlayer = 0;
+var explosionCount = 0;
 var stats = {};
 
 
@@ -22,7 +23,8 @@ function setup() {
             else if (rand < 80) index = 2 * randomGender();
             else if (rand < 95) index = 3 * randomGender();
             else if (rand < 99) index = 4 * randomGender();
-            else if (rand <= 100) index = 5;
+            else if (rand < 99.7) index = 5;
+            else if (rand <= 100) index = 6;
             matrix[y][x] = index;               
             }
     }
@@ -55,6 +57,9 @@ function setup() {
             else if (matrix[y][x] == 5) {
                 mahahaArr.push(new Mahaha(x, y, 5));
             }
+            else if (matrix[y][x] == 6) {
+                mahahaArr.push(new Destroyer(x, y, 6));
+            }
         }
     }
 
@@ -70,12 +75,10 @@ function draw() {
             "wolfsC": wolfArr.length,
             "huntersC": hntrArr.length,
             "MahahasC": mahahaArr.length,
+            "explosionC": explosionCount,
             "killedByPlayer": killedByPlayer
         }
         socket.emit("send stats", stats);
-
-        var position = getBlankCell()
-        bomberArr.push(new Bomber(position[0], position[1], 6))
     }
 
     if (frameCount % 25 == 0) {
@@ -175,7 +178,7 @@ function draw() {
             if (wolfArr[i].mul >= wolfArr[i].speed + 2) {
                 wolfArr[i].utel();
             }
-            if (wolfArr[i].energy >= 10) {
+            if (wolfArr[i].energy >= 7) {
                 wolfArr[i].multiply();
             }
         }
@@ -183,7 +186,7 @@ function draw() {
             if (wolfArr[i].mul >= wolfArr[i].speed) {
                 wolfArr[i].utel();
             }
-            if (wolfArr[i].energy >= 7) {
+            if (wolfArr[i].energy >= 5) {
                 wolfArr[i].multiply();
             }
         }
@@ -224,13 +227,15 @@ function draw() {
         }
     }
 
-    for (var i in bomberArr) {
-        bomberArr[i].mul++;
-        if (bomberArr[i].mul >= bomberArr[i].speed) {
-            bomberArr[i].walk();
+    for (var i in destroyerArr) {
+        destroyerArr[i].mul++;
+        if (destroyerArr[i].mul >= destroyerArr[i].speed) {
+            destroyerArr[i].walk();
         }
-        if (bomberArr[i].steps >= Math.round(random(5, 15))){
-            bomberArr[i].explose();   
+        if (destroyerArr[i].steps >= Math.round(random(10, 15))){
+            destroyerArr[i].explose(); 
+            explosionCount++;
+            
         }       
     }
 }
@@ -264,18 +269,6 @@ function randomGender() {
     return gender;
 }
 
-function getBlankCell () {
-    var found = [];
-    for (let y = 0; y < matrix.length; ++y) {
-        for (let x = 0; x < matrix[y].length; ++x) {
-            if (matrix[y][x] == 0) {
-                found.push([x,y]);
-            }
-        }
-    }
-    return random(found);
-}
-
 function killCreature(x, y) {
     if (matrix[y][x] == 1) {
         for (var i in grassArr) {
@@ -290,7 +283,7 @@ function killCreature(x, y) {
     else if (matrix[y][x] == 2 || matrix[y][x] == 20) {
         for (var i in sheepArr) {
             if (sheepArr[i].x == x && sheepArr[i].y == y) {
-                sheepArr[i].die;
+                sheepArr.splice(i, 1);
                 matrix[y][x] = 0;
                 killedByPlayer++;
                 break;
@@ -319,5 +312,9 @@ function killCreature(x, y) {
     }
 
 }
+
+
+
+
 
 

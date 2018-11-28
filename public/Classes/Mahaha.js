@@ -25,43 +25,36 @@ class Mahaha extends LivingCreature {
     }
 
     walk() {
-        var findPrey = random(this.chooseCell(2, 20, 3, 30, 4, 40));
+        var findPrey = random(this.chooseCell(2, 20, 4, 40));
         var chooseCell = random(this.chooseCell(0, 1));
         this.mul++;
         if (findPrey) {
-            if (this.mul >= this.speed2) {
-                if (matrix[findPrey[1]][findPrey[0]] == 2 || matrix[findPrey[1]][findPrey[0]] == 20) {
-                    for (var i in sheepArr) {
-                        if (findPrey[0] == sheepArr[i].x && findPrey[1] == sheepArr[i].y) {
-                            sheepArr.splice(i, 1);
-                            break;
-                        }
-                    }
-                } else if (matrix[findPrey[1]][findPrey[0]] == 3 || matrix[findPrey[1]][findPrey[0]] == 30) {
-                    for (var i in wolfArr) {
-                        if (findPrey[0] == wolfArr[j].x && findPrey[1] == wolfArr[j].y) {
-                            wolfArr.splice(j, 1);
-                            break;
-                        }
-                    }
-                } else if (matrix[findPrey[1]][findPrey[0]] == 4 || matrix[findPrey[1]][findPrey[0]] == 30) {
-                    for (var i in hntrArr) {
-                        if (findPrey[0] == hntrArr[k].x && findPrey[1] == hntrArr[k].y) {
-                            hntrArr.splice(k, 1);
-                            break;
-                        }
+            if (matrix[findPrey[1]][findPrey[0]] == 2 || matrix[findPrey[1]][findPrey[0]] == 20) {
+                for (var i in sheepArr) {
+                    if (findPrey[0] == sheepArr[i].x && findPrey[1] == sheepArr[i].y) {
+                        sheepArr.splice(i, 1);
+                        break;
                     }
                 }
-
-                matrix[findPrey[1]][findPrey[0]] = this.index;
-                matrix[this.y][this.x] = 0;
-                this.x = findPrey[0];
-                this.y = findPrey[1];
-                this.energy++;
-                this.mul = 0;
-
             }
-        } else if (chooseCell && this.mul >= this.speed) {
+            else if (matrix[findPrey[1]][findPrey[0]] == 4 || matrix[findPrey[1]][findPrey[0]] == 40) {
+                for (var i in hntrArr) {
+                    if (findPrey[0] == hntrArr[i].x && findPrey[1] == hntrArr[i].y) {
+                        hntrArr.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+
+            matrix[findPrey[1]][findPrey[0]] = this.index;
+            matrix[this.y][this.x] = 0;
+            this.x = findPrey[0];
+            this.y = findPrey[1];
+            this.energy++;
+            this.mul = 0;
+
+        }
+        else if (chooseCell) {
             if (matrix[chooseCell[1]][chooseCell[0]] == 1) matrix[this.y][this.x] = 1;
             else matrix[this.y][this.x] = 0;
             this.energy--;

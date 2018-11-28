@@ -76,12 +76,6 @@ class Sheep extends LivingCreature {
     }
 
     die() {   
-        for (let i in sheepArr) {
-            if (this.x == sheepArr[i].x && this.y == sheepArr[i].y) {
-                sheepArr.splice(i, 1);
-                matrix[this.y][this.x] = 0;
-                break;
-            }
-        }    
+        super.die(sheepArr);  
     }
 }

@@ -1,8 +1,8 @@
-class Bomber extends LivingCreature {
+class Destroyer extends LivingCreature {
     constructor(x, y, index) {
         super(x, y, index)
-        this.speed = Math.round(random(1, 4));
-        this.steps = 0;
+        this.step = 0;
+        this.speed = Math.round(random(5, 7));
     }
 
     getNewCoordinates() {
@@ -23,15 +23,7 @@ class Bomber extends LivingCreature {
             [this.x + 1, this.y],
             [this.x - 1, this.y + 1],
             [this.x, this.y + 1],
-            [this.x + 1, this.y + 1],
-            [this.x - 2, this.y - 2],
-            [this.x, this.y - 2],
-            [this.x + 2, this.y - 2],
-            [this.x - 2, this.y],
-            [this.x + 2, this.y],
-            [this.x - 2, this.y + 2],
-            [this.x, this.y + 2],
-            [this.x + 2, this.y + 2]
+            [this.x + 1, this.y + 1]
         ];
 
         return this.directions;
@@ -55,12 +47,9 @@ class Bomber extends LivingCreature {
             matrix[this.y][this.x] = 0;
             this.x = newCell[0];
             this.y = newCell[1];  
-            this.mul = 0;
-            this.steps++;
+            this.step++;
+            this.mul++;
         } 
-        else{
-            this.explose();
-        }
     }
 
     explose() {
@@ -105,13 +94,7 @@ class Bomber extends LivingCreature {
                     }
                 }
             }
-        }
-        for (var i in bomberArr) {
-            if (this.x == bomberArr[i].x && this.y == bomberArr[i].y) {
-                bomberArr.splice(i, 1);
-                matrix[this.y][this.x] = 0;
-                break;
-            }
-        }           
+            this.mul = 0;
+        }          
     }
 }

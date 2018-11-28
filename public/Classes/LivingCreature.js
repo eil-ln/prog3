@@ -31,15 +31,6 @@ class LivingCreature {
         return found;
     }
 
-    // multiply(arr, newCreature) {
-    //     var newCell = random(this.chooseCell(0));
-    //     if (newCell) {
-    //         arr.push(newCreature);
-    //         matrix[newCell[1]][newCell[0]] = this.index;
-    //         this.energy = 10;
-    //     }
-    // }
-
     die(arr) {   
         for (let i in arr) {
             if (this.x == arr[i].x && this.y == arr[i].y) {

@@ -47,21 +47,31 @@ class Wolf extends LivingCreature {
     }
 
     utel() {
-        var findPrey = random(this.chooseCell(2, 20));
+        var findPrey = random(this.chooseCell(2, 20, 5));
         var chooseCell = random(this.chooseCell(0, 1));
         if (findPrey) {
+            if(matrix[findPrey[1]][findPrey[0]] == 2 || matrix[findPrey[1]][findPrey[0]] == 20){
+                for (var i in sheepArr) {
+                    if (findPrey[0] == sheepArr[i].x && findPrey[1] == sheepArr[i].y) {
+                        sheepArr.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+            else if(matrix[findPrey[1]][findPrey[0]] == 5){
+                for (var i in mahahaArr) {
+                    if (findPrey[0] == mahahaArr[i].x && findPrey[1] == mahahaArr[i].y) {
+                        mahahaArr.splice(i, 1);
+                        break;
+                    }
+                }
+            }
             matrix[findPrey[1]][findPrey[0]] = this.index;
             matrix[this.y][this.x] = 0;
             this.x = findPrey[0];
             this.y = findPrey[1];
             this.energy++;
             this.mul = 0;
-            for (var i in sheepArr) {
-                if (findPrey[0] == sheepArr[i].x && findPrey[1] == sheepArr[i].y) {
-                    sheepArr.splice(i, 1);
-                    break;
-                }
-            }
         } else if (chooseCell) {            
             if (matrix[chooseCell[1]][chooseCell[0]] == 1){
                 matrix[this.y][this.x] = 1;

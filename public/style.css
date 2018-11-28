@@ -1,0 +1,24 @@
+*{
+    color:white;
+}
+body {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #061c31;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+}
+table{
+    border: 1px solid white;
+}
+
+td{
+    border: 1px solid white;
+    padding: 5px;
+}
+
+a{
+    display: inline-block;
+}
