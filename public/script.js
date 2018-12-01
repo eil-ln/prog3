@@ -12,18 +12,18 @@ var stats = {};
 
 
 function setup() {
-    frameRate(10);    
+    frameRate(5);    
     for (let y = 0; y < h; y++) {
         matrix[y] = [];
         for (let x = 0; x < w; x++) {
             let rand = random(100);
             let index = 0;
             if (rand < 30) index = 0;
-            else if (rand < 60) index = 1;
-            else if (rand < 80) index = 2 * randomGender();
+            else if (rand < 55) index = 1;
+            else if (rand < 75) index = 2 * randomGender();
             else if (rand < 95) index = 3 * randomGender();
             else if (rand < 99) index = 4 * randomGender();
-            else if (rand < 99.7) index = 5;
+            else if (rand < 99.9) index = 5;
             else if (rand <= 100) index = 6;
             matrix[y][x] = index;               
             }
@@ -58,7 +58,7 @@ function setup() {
                 mahahaArr.push(new Mahaha(x, y, 5));
             }
             else if (matrix[y][x] == 6) {
-                mahahaArr.push(new Destroyer(x, y, 6));
+                destroyerArr.push(new Destroyer(x, y, 6));
             }
         }
     }
@@ -129,11 +129,11 @@ function draw() {
                 rect(x * side, y * side, side, side);
             } 
             else if (matrix[y][x] == 5) {
-                fill("black");
+                fill("blue");
                 rect(x * side, y * side, side, side);
             } 
             else if (matrix[y][x] == 6) {
-                fill("blue");
+                fill("black");
                 rect(x * side, y * side, side, side);
             } 
             else if (matrix[y][x] == 0) {
@@ -232,7 +232,7 @@ function draw() {
         if (destroyerArr[i].mul >= destroyerArr[i].speed) {
             destroyerArr[i].walk();
         }
-        if (destroyerArr[i].steps >= Math.round(random(10, 15))){
+        if (destroyerArr[i].steps >= 4){
             destroyerArr[i].explose(); 
             explosionCount++;
             
@@ -312,9 +312,3 @@ function killCreature(x, y) {
     }
 
 }
-
-
-
-
-
-

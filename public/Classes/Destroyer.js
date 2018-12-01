@@ -2,7 +2,7 @@ class Destroyer extends LivingCreature {
     constructor(x, y, index) {
         super(x, y, index)
         this.step = 0;
-        this.speed = Math.round(random(5, 7));
+        this.speed = Math.round(random(2, 5));
     }
 
     getNewCoordinates() {
@@ -48,8 +48,11 @@ class Destroyer extends LivingCreature {
             this.x = newCell[0];
             this.y = newCell[1];  
             this.step++;
-            this.mul++;
+            this.mul = 0;
         } 
+        else{
+            this.explose();
+        }
     }
 
     explose() {
@@ -70,7 +73,7 @@ class Destroyer extends LivingCreature {
             else if (matrix[y][x] == 2 || matrix[y][x] == 20) {
                 for (var i in sheepArr) {
                     if (sheepArr[i].x == x && sheepArr[i].y == y) {
-                        sheepArr[i].die;
+                        sheepArr.splice(i, 1);
                         matrix[y][x] = 0;
                         break;
                     }
@@ -95,6 +98,7 @@ class Destroyer extends LivingCreature {
                 }
             }
             this.mul = 0;
+            this.steps = 0;
         }          
     }
 }
