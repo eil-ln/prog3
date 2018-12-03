@@ -9,7 +9,8 @@ var seasonCount = 0;
 var killedByPlayer = 0;
 var explosionCount = 0;
 var stats = {};
-
+var weather = document.getElementById('weather');
+weather.innerHTML = season;
 
 function setup() {
     frameRate(5);    
@@ -89,6 +90,7 @@ function draw() {
             season = "Summer"; 
         } 
         seasonCount++;   
+        weather.innerHTML = season;
 
     }
 
@@ -201,7 +203,7 @@ function draw() {
         if (season == "Summer" && hntrArr[i].mul >= hntrArr[i].speed) {
             hntrArr[i].utel();
         }
-        else if (season == "Winter" && hntrArr[i].mul >= hntrArr[i].speed + 2) {
+        else if (season == "Winter" && hntrArr[i].mul >= hntrArr[i].speed + 1) {
             hntrArr[i].utel();
         }
         if (hntrArr[i].energy >= 7) {
